@@ -9,7 +9,10 @@ export default function NavigationBar() {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/companies">View Companies</Link>
+          <Link href="/companies">Companies</Link>
+        </li>
+        <li>
+          <Link href="/recruiters">Recruiters</Link>
         </li>
       </ul>
     </nav>
