@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 export default function NavigationBar() {
@@ -13,6 +12,12 @@ export default function NavigationBar() {
         </li>
         <li>
           <Link href="/recruiters">Recruiters</Link>
+        </li>
+        <li>
+          <Link href="/candidates">Candidates</Link>
+        </li>
+        <li>
+          <Link href="/postings">Postings</Link>
         </li>
       </ul>
     </nav>

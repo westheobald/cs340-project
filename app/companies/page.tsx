@@ -4,7 +4,9 @@ export default function Companies() {
   return (
     <>
       <h1>Companies</h1>
-      <Link href="/companies/add">Add Company</Link>
+      <Link href="/companies/add">
+        Add Company
+      </Link>
       <table>
         <caption>Current Companies</caption>
         <thead>
@@ -27,7 +29,11 @@ export default function Companies() {
             <td>442-906-8682</td>
             <td>+0:00</td>
             <td>Law</td>
-            <td><Link href="/companies/update">EDIT</Link></td>
+            <td>
+              <Link href="/companies/update">
+                EDIT
+              </Link>
+            </td>
             <td>DELETE</td>
           </tr>
         </tbody>

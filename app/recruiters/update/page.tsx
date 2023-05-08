@@ -5,15 +5,15 @@ export default function UpdateRecruiter() {
     <>
       <h1>Update Recruiter</h1>
       <form>
-        <label htmlfor="name">
+        <label htmlFor="name">
           Name:
           <input type="text" name="name" placeholder="Name" />
         </label>
-        <label htmlfor="time_zone">
+        <label htmlFor="time_zone">
           Time Zone:
           <TimeZoneSelect />
         </label>
-        <label htmlfor="commission">
+        <label htmlFor="commission">
           Commission:
           <input type="text" name="commission" placeholder="Commission" />
         </label>

@@ -1,4 +1,3 @@
-import React from 'react';
 import TimeZoneSelect from '@/components/time-zone-select';
 
 export default function AddRecruiter() {
@@ -6,15 +5,15 @@ export default function AddRecruiter() {
     <>
       <h1>Add a Recruiter</h1>
       <form>
-        <label htmlfor="name">
+        <label htmlFor="name">
           Name:
           <input type="text" name="name" placeholder="Name" />
         </label>
-        <label htmlfor="time_zone">
+        <label htmlFor="time_zone">
           Time Zone:
           <TimeZoneSelect />
         </label>
-        <label htmlfor="commission">
+        <label htmlFor="commission">
           Commission:
           <input type="number" min="0" name="commission" placeholder="Commission" />
         </label>

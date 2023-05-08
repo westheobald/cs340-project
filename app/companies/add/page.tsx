@@ -1,4 +1,3 @@
-import React from 'react';
 import TimeZoneSelect from '@/components/time-zone-select';
 
 export default function AddCompany() {
@@ -6,27 +5,27 @@ export default function AddCompany() {
     <>
       <h1>Add a Company</h1>
       <form>
-        <label htmlfor="name">
+        <label htmlFor="name">
           Name:
           <input type="text" name="name" placeholder="Name" />
         </label>
-        <label htmlfor="city">
+        <label htmlFor="city">
           City:
           <input type="text" name="city" placeholder="City" />
         </label>
-        <label htmlfor="address">
+        <label htmlFor="address">
           Address:
           <input type="text" name="address" placeholder="Address" />
         </label>
-        <label htmlfor="phone">
+        <label htmlFor="phone">
           Phone:
           <input type="tel" name="phone" placeholder="Phone" />
         </label>
-        <label htmlfor="time_zone">
+        <label htmlFor="time_zone">
           Time Zone:
           <TimeZoneSelect />
         </label>
-        <label htmlfor="industry">
+        <label htmlFor="industry">
           Industry:
           <input type="text" name="industry" placeholder="Industry" />
         </label>
