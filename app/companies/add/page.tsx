@@ -1,9 +1,9 @@
 import TimeZoneSelect from '@/components/time-zone-select';
 
 export default function AddCompany() {
-  return (
-    <>
+  return (<>
       <h1>Add a Company</h1>
+    <div className='form__container'>
       <form>
         <label htmlFor="name">
           Name:
@@ -31,6 +31,6 @@ export default function AddCompany() {
         </label>
         <input type="submit" />
       </form>
-    </>
+    </div></>
   );
 }
