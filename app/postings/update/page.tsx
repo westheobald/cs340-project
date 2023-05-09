@@ -1,5 +1,3 @@
-import TimeZoneSelect from '@/components/time-zone-select';
-
 export default function UpdatePosting() {
   return (
     <>
@@ -7,7 +5,9 @@ export default function UpdatePosting() {
       <form>
         <label htmlFor="company">
           Posting:
-          <input type="text" name="company" placeholder="Posting" required />
+          <select name="company">
+            <option>Reily and Sons</option>
+          </select>
         </label>
         <label htmlFor="job_title">
           Job Title:

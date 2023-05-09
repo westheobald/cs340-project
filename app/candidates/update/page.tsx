@@ -15,6 +15,13 @@ export default function UpdateCandidate() {
           Phone:
           <input type="tel" name="phone" />
         </label>
+        <label htmlFor="recruiter">
+          Recruiter:
+          <select name="recrtuier">
+            <option>Kristian Corkitt</option>
+            <option>Randal Sibbert</option>
+          </select>
+        </label>
         <input type="submit" />
       </form>
     </>

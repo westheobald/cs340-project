@@ -1,36 +1,33 @@
 import Link from 'next/link';
 
-export default function Postings() {
+export default function Applications() {
   return (
     <>
-      <h1>Postings</h1>
-      <Link href="/postings/add">Add Posting</Link>
+      <h1>Applications</h1>
       <table>
-        <caption>Current Postings</caption>
+        <caption>Current Applications</caption>
         <thead>
           <tr>
-            <th>Add Application</th>
+            <th>Candidate Name</th>
             <th>Company</th>
             <th>Job Title</th>
-            <th>Salary</th>
-            <th>Post Start</th>
-            <th>Post End</th>
+            <th>Date</th>
+            <th>Submitted</th>
+            <th>Status</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <Link href="/applications/add">ADD</Link>
-            </td>
+            <td>Joe Candidate</td>
             <td>Reilly and Sons</td>
             <td>Mechanical Systems Engineer</td>
-            <td>237881</td>
             <td>2023-06-06</td>
-            <td>2023-09-24</td>
+            <td>True</td>
+            <td>Submitted</td>
             <td>
-              <Link href="/postings/update">EDIT</Link>
+              <Link href="/applications/update">EDIT</Link>
             </td>
             <td>DELETE</td>
           </tr>

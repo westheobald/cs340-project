@@ -19,6 +19,9 @@ export default function NavigationBar() {
         <li>
           <Link href="/postings">Postings</Link>
         </li>
+        <li>
+          <Link href="/applications">Applications</Link>
+        </li>
       </ul>
     </nav>
   );

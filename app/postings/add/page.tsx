@@ -5,11 +5,18 @@ export default function AddPosting() {
       <form>
         <label htmlFor="company">
           Company:
-          <input type="text" name="company" placeholder="Company" required />
+          <select name="company">
+            <option>Reily and Sons</option>
+          </select>
         </label>
         <label htmlFor="job_title">
           Job Title:
-          <input type="text" name="job_title" placeholder="Job Title" required />
+          <input
+            type="text"
+            name="job_title"
+            placeholder="Job Title"
+            required
+          />
         </label>
         <label htmlFor="salary">
           Salary:

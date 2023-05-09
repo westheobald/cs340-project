@@ -4,9 +4,7 @@ export default function Candidates() {
   return (
     <>
       <h1>Candidates</h1>
-      <Link href="/candidates/add">
-        Add Candidate
-      </Link>
+      <Link href="/candidates/add">Add Candidate</Link>
       <table>
         <caption>Current Candidates</caption>
         <thead>
@@ -14,6 +12,7 @@ export default function Candidates() {
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Recruiter</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
@@ -23,10 +22,9 @@ export default function Candidates() {
             <td>Jae Shevlane</td>
             <td>jaeshevlane@gmail.com</td>
             <td>857-229-2289</td>
+            <td>Randal Sibbert</td>
             <td>
-              <Link href="/candidates/update">
-                EDIT
-              </Link>
+              <Link href="/candidates/update">EDIT</Link>
             </td>
             <td>DELETE</td>
           </tr>
