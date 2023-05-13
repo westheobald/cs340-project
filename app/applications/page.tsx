@@ -4,6 +4,7 @@ export default function Applications() {
   return (
     <>
       <h1>Applications</h1>
+      <Link href="applications/status">Application Statuses</Link>
       <table>
         <caption>Current Applications</caption>
         <thead>
