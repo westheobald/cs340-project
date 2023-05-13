@@ -1,8 +1,11 @@
 import React from 'react';
 
-export default function TimeZoneSelect() {
+type DefaultTimeZone = {
+  defaultOption: string;
+};
+export default function TimeZoneSelect(obj: DefaultTimeZone) {
   return (
-    <select name="time_zone">
+    <select name="time_zone" defaultValue={obj.defaultOption}>
       <option value="-12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
       <option value="-11:00">(GMT -11:00) Midway Island, Samoa</option>
       <option value="-10:00">(GMT -10:00) Hawaii</option>
