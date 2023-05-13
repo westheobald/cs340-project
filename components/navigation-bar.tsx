@@ -6,9 +6,6 @@ export default function NavigationBar() {
     <nav className={styles.nav}>
       <ul className={styles.ul}>
         <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
           <Link href="/companies">Companies</Link>
         </li>
         <li>
