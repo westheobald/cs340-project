@@ -11,7 +11,7 @@ export default function AddRecruiter() {
         </label>
         <label htmlFor="time_zone">
           Time Zone:
-          <TimeZoneSelect />
+          <TimeZoneSelect defaultValue='-08:00' />
         </label>
         <label htmlFor="commission">
           Commission:
