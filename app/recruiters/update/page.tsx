@@ -1,6 +1,7 @@
 'use client';
 import TimeZoneSelect from '@/components/time-zone-select';
 import { useSearchParams } from 'next/navigation';
+import handleSubmit from '@/helpers/formSubmit';
 
 export default function UpdateRecruiter() {
   const query = useSearchParams();
@@ -12,7 +13,7 @@ export default function UpdateRecruiter() {
   return (
     <>
       <h1>Update Recruiter</h1>
-      <form>
+      <form onSubmit={(e) => handleSubmit(e, 'http://')}>
         <label htmlFor="name">
           Name:
           <input
@@ -20,6 +21,7 @@ export default function UpdateRecruiter() {
             name="name"
             placeholder="Name"
             defaultValue={company.name}
+            required
           />
         </label>
         <label htmlFor="time_zone">
@@ -33,6 +35,7 @@ export default function UpdateRecruiter() {
             name="commission"
             placeholder="Commission"
             defaultValue={company.commission}
+            required
           />
         </label>
         <input type="submit" />

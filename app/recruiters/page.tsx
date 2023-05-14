@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function Recruiters() {
   type Recruiter = {
@@ -34,6 +35,12 @@ export default function Recruiters() {
       commission: 5,
     },
   ];
+  const [recruiters, setRecruiters] = useState(sampleRecruiters);
+
+  useEffect(() => {
+    // setRecruiters()
+  });
+
   function deleteRow(id: number, name: string): void {
     if (confirm(`Are you sure you want to delete recruiter: ${name}?`)) {
       // delete
@@ -43,7 +50,7 @@ export default function Recruiters() {
   function createRow(recruiterInfo: Recruiter) {
     const { recruiter_id, name, time_zone, commission } = recruiterInfo;
     return (
-      <tr>
+      <tr key={recruiter_id}>
         <td>{name}</td>
         <td>{time_zone}</td>
         <td>{commission}</td>
@@ -76,9 +83,7 @@ export default function Recruiters() {
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody>
-          {sampleRecruiters.map(el => createRow(el))}
-        </tbody>
+        <tbody>{recruiters.map((el) => createRow(el))}</tbody>
       </table>
     </>
   );

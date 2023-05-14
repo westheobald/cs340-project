@@ -6,7 +6,7 @@ type TimeZoneProps = {
 
 export default function TimeZoneSelect({ defaultValue }: TimeZoneProps) {
   return (
-    <select name="time_zone" defaultValue={defaultValue}>
+    <select name="time_zone" defaultValue={defaultValue} required>
       <option value="-12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
       <option value="-11:00">(GMT -11:00) Midway Island, Samoa</option>
       <option value="-10:00">(GMT -10:00) Hawaii</option>
@@ -32,7 +32,7 @@ export default function TimeZoneSelect({ defaultValue }: TimeZoneProps) {
       </option>
       <option value="-02:00">(GMT -2:00) Mid-Atlantic</option>
       <option value="-01:00">(GMT -1:00) Azores, Cape Verde Islands</option>
-      <option value="+00:00" selected>
+      <option value="+00:00">
         (GMT) Western Europe Time, London, Lisbon, Casablanca
       </option>
       <option value="+01:00">

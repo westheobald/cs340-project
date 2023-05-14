@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Companies() {
   type Company = {
@@ -41,6 +42,12 @@ export default function Companies() {
     },
   ];
 
+  const [companies, setCompanies] = useState(sampleCompanies);
+
+  useEffect(() => {
+    // setCompanies(array)
+  });
+
   function deleteRow(id: number, name: string): void {
     if (confirm(`Are you sure you want to delete company: ${name}?`)) {
       // delete
@@ -51,7 +58,7 @@ export default function Companies() {
     const { company_id, name, city, address, phone, time_zone, industry } =
       companyInfo;
     return (
-      <tr>
+      <tr key={company_id}>
         <td>{name}</td>
         <td>{city}</td>
         <td>{address}</td>
@@ -91,7 +98,7 @@ export default function Companies() {
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody>{sampleCompanies.map((company) => createRow(company))}</tbody>
+        <tbody>{companies.map((company) => createRow(company))}</tbody>
       </table>
     </>
   );
