@@ -1,12 +1,70 @@
+'use client';
 import Link from 'next/link';
 
 export default function Recruiters() {
+  type Recruiter = {
+    recruiter_id: number;
+    name: string;
+    time_zone: string;
+    commission: number;
+  };
+  const sampleRecruiters = [
+    {
+      recruiter_id: 1,
+      name: 'Kristian Corkitt',
+      time_zone: '+01:00',
+      commission: 15,
+    },
+    {
+      recruiter_id: 2,
+      name: 'Randal Sibbert',
+      time_zone: '-08:00',
+      commission: 10,
+    },
+    {
+      recruiter_id: 3,
+      name: 'Jeanine Kyles',
+      time_zone: '-03:00',
+      commission: 19,
+    },
+    {
+      recruiter_id: 4,
+      name: 'Dela Austick',
+      time_zone: '+06:00',
+      commission: 5,
+    },
+  ];
+  function deleteRow(id: number, name: string): void {
+    if (confirm(`Are you sure you want to delete recruiter: ${name}?`)) {
+      // delete
+    }
+  }
+
+  function createRow(recruiterInfo: Recruiter) {
+    const { recruiter_id, name, time_zone, commission } = recruiterInfo;
+    return (
+      <tr>
+        <td>{name}</td>
+        <td>{time_zone}</td>
+        <td>{commission}</td>
+        <td>
+          <Link
+            href={{
+              pathname: 'recruiters/update',
+              query: { data: JSON.stringify(recruiterInfo) },
+            }}
+          >
+            EDIT
+          </Link>
+        </td>
+        <td onClick={(_) => deleteRow(recruiter_id, name)}>DELETE</td>
+      </tr>
+    );
+  }
   return (
     <>
       <h1>Recruiters</h1>
-      <Link href="/recruiters/add">
-        Add Recruiter
-      </Link>
+      <Link href="/recruiters/add">Add Recruiter</Link>
       <table>
         <caption>Current Recruiters</caption>
         <thead>
@@ -19,17 +77,7 @@ export default function Recruiters() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Kristian Corkitt</td>
-            <td>+0:00</td>
-            <td>15</td>
-            <td>
-              <Link href="/recruiters/update">
-                EDIT
-              </Link>
-            </td>
-            <td>DELETE</td>
-          </tr>
+          {sampleRecruiters.map(el => createRow(el))}
         </tbody>
       </table>
     </>
