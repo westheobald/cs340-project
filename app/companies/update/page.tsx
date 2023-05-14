@@ -31,7 +31,7 @@ export default function UpdateCompany() {
         </label>
         <label htmlFor="time_zone">
           Time Zone:
-          <TimeZoneSelect defaultOption={company.time_zone}/>
+          <TimeZoneSelect defaultValue={company.time_zone}/>
         </label>
         <label htmlFor="industry">
           Industry:
