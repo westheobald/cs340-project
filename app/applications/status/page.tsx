@@ -1,37 +1,25 @@
 'use client';
-import React from 'react';
 import Link from 'next/link';
-
+import { ApplicationStatus } from '@/helpers/types';
+import { sampleApplicationStatus } from '@/helpers/sampleData';
+import { useEffect, useState } from 'react';
 export default function ApplicationStatus() {
-  type Status = {
-    status_id: number;
-    message: string;
-  };
-  const sampleApplicationStatus = [
-    {
-      status_id: 1,
-      message: 'submitted',
-    },
-    {
-      status_id: 2,
-      message: 'review/pending',
-    },
-    {
-      status_id: 3,
-      message: 'completed',
-    },
-    { status_id: 4, message: 'offer extended' },
-    { status_id: 5, message: 'not interested' },
-  ];
+  const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] =
+    useState([]);
+
+  useEffect(() => {
+    setStatuses(sampleApplicationStatus);
+  }, []);
+
   function deleteRow(id: number, message: string): void {
     if (confirm(`Are you sure you want to delete status: ${message}?`)) {
       // delete
     }
   }
-  function createRow(statusInfo: Status) {
+  function createRow(statusInfo: ApplicationStatus) {
     const { status_id, message } = statusInfo;
     return (
-      <tr>
+      <tr key={status_id}>
         <td>{message}</td>
         <td>
           <Link
@@ -59,7 +47,7 @@ export default function ApplicationStatus() {
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody>{sampleApplicationStatus.map((el) => createRow(el))}</tbody>
+        <tbody>{statuses.map((el) => createRow(el))}</tbody>
       </table>
     </>
   );

@@ -1,59 +1,23 @@
 'use client';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Company } from '@/helpers/types';
+
+import { sampleCompanies } from '@/helpers/sampleData';
 
 export default function Companies() {
-  type Company = {
-    company_id: number;
-    name: string;
-    city: string;
-    address: string;
-    phone: string;
-    time_zone: string;
-    industry: string;
-  };
-  const sampleCompanies: Array<Company> = [
-    {
-      company_id: 1,
-      name: 'Reilly and Sons',
-      city: 'Luwu',
-      address: '77175 Hintze Pass',
-      phone: '442-906-8682',
-      time_zone: '-11:00',
-      industry: 'Law',
-    },
-    {
-      company_id: 2,
-      name: 'Lowe, Larson and Brown',
-      city: 'Fengshan',
-      address: '3551 Everett Terrace',
-      phone: '669-886-1182',
-      time_zone: '-06:00',
-      industry: 'Construction',
-    },
-    {
-      company_id: 3,
-      name: 'Green-Ziemann',
-      city: 'Jingtan',
-      address: '2 Basil Parkway',
-      phone: '952-439-1592',
-      time_zone: '+01:00',
-      industry: 'Building Products',
-    },
-  ];
-
-  const [companies, setCompanies] = useState(sampleCompanies);
+  const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
 
   useEffect(() => {
-    // setCompanies(array)
-  });
+    setCompanies(sampleCompanies) // SET TO RETURN OF DATABASE FETCH
+  }, []);
 
   function deleteRow(id: number, name: string): void {
     if (confirm(`Are you sure you want to delete company: ${name}?`)) {
-      // delete
+      // DELETE
     }
   }
-
+ 
   function createRow(companyInfo: Company) {
     const { company_id, name, city, address, phone, time_zone, industry } =
       companyInfo;

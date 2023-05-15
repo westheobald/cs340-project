@@ -1,33 +1,15 @@
 'use client';
+import { samplePostings } from '@/helpers/sampleData';
+import { Posting } from '@/helpers/types';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function Postings() {
-  type Posting = {
-    posting_id: number;
-    company_id: number;
-    company_name: string;
-    job_title: string;
-    salary: number;
-    post_start: string;
-    post_end: string;
-  };
-  const samplePostings: Array<Posting> = [
-    {
-      posting_id: 1,
-      company_id: 1,
-      company_name: 'Reilly and Sons',
-      job_title: 'Mechanical Systems Engineer',
-      salary: 237881,
-      post_start: '2023-06-06',
-      post_end: '2022-09-24',
-    },
-  ];
-
-  const [postings, setPostings] = useState(samplePostings);
+  const [postings, setPostings]: [Array<Posting>, Function] =
+    useState(samplePostings);
   useEffect(() => {
-    // setPostings(array)
-  });
+    setPostings(samplePostings);
+  }, []);
 
   function deleteRow(id: number, name: string, job_title: string): void {
     if (

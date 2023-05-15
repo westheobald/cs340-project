@@ -1,45 +1,16 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { Recruiter } from '@/helpers/types';
+
+import { sampleRecruiters } from '@/helpers/sampleData';
 
 export default function Recruiters() {
-  type Recruiter = {
-    recruiter_id: number;
-    name: string;
-    time_zone: string;
-    commission: number;
-  };
-  const sampleRecruiters = [
-    {
-      recruiter_id: 1,
-      name: 'Kristian Corkitt',
-      time_zone: '+01:00',
-      commission: 15,
-    },
-    {
-      recruiter_id: 2,
-      name: 'Randal Sibbert',
-      time_zone: '-08:00',
-      commission: 10,
-    },
-    {
-      recruiter_id: 3,
-      name: 'Jeanine Kyles',
-      time_zone: '-03:00',
-      commission: 19,
-    },
-    {
-      recruiter_id: 4,
-      name: 'Dela Austick',
-      time_zone: '+06:00',
-      commission: 5,
-    },
-  ];
-  const [recruiters, setRecruiters] = useState(sampleRecruiters);
+  const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState([]);
 
   useEffect(() => {
-    // setRecruiters()
-  });
+    setRecruiters(sampleRecruiters)
+  }, []);
 
   function deleteRow(id: number, name: string): void {
     if (confirm(`Are you sure you want to delete recruiter: ${name}?`)) {

@@ -6,35 +6,45 @@ import handleSubmit from '@/helpers/formSubmit';
 export default function UpdateRecruiter() {
   const query = useSearchParams();
   const data = query.get('data');
-  let company;
+  let recruiter;
   if (data) {
-    company = JSON.parse(data);
+    recruiter = JSON.parse(data);
   }
   return (
     <>
       <h1>Update Recruiter</h1>
       <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+        <label htmlFor="recruiter_id">
+          ID:
+          <input
+            type="number"
+            name="recruiter_id"
+            defaultValue={recruiter.recruiter_id}
+            readOnly
+            required
+          />
+        </label>
         <label htmlFor="name">
           Name:
           <input
             type="text"
             name="name"
             placeholder="Name"
-            defaultValue={company.name}
+            defaultValue={recruiter.name}
             required
           />
         </label>
         <label htmlFor="time_zone">
           Time Zone:
-          <TimeZoneSelect defaultValue={company.time_zone} />
+          <TimeZoneSelect defaultValue={recruiter.time_zone} />
         </label>
         <label htmlFor="commission">
           Commission:
           <input
-            type="text"
+            type="number"
             name="commission"
             placeholder="Commission"
-            defaultValue={company.commission}
+            defaultValue={recruiter.commission}
             required
           />
         </label>

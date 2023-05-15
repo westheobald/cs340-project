@@ -1,19 +1,69 @@
+'use client';
+import { useSearchParams } from 'next/navigation';
+import handleSubmit from '@/helpers/formSubmit';
+
 export default function UpdateApplication() {
+  const query = useSearchParams();
+  const data = query.get('data');
+  let application;
+  if (data) {
+    application = JSON.parse(data);
+  }
+  application.date = new Date(application.date).toISOString();
+  console.log(application);
   return (
     <>
       <h1>Update Application</h1>
-      
-      <form>
-        <p>Candidate: Joe Candidate</p>
-        <p>Company: Reilly and Sons</p>
-        <p>Job: Systems Management Engineer</p>
-        <label htmlFor="submitted">Submitted:
+
+      <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+        <label htmlFor="application_id">
+          ID:
+          <input
+            type="number"
+            name="application_id"
+            defaultValue={application.application_id}
+            readOnly
+            required
+          />
+        </label>
+        <label htmlFor="candidate_id">
+          {application.candidate_name}
+          <input
+            type="number"
+            name="candidate_id"
+            defaultValue={application.candidate_id}
+            readOnly
+            required
+          />
+        </label>
+        <label htmlFor="posting_id">
+          {application.company_name} - {application.job_title}
+          <input
+            type="number"
+            name="posting_id"
+            defaultValue={application.posting_id}
+            readOnly
+            required
+          />
+        </label>
+        <label htmlFor="date">
+          Date/Time:
+          <input
+            type="datetime-local"
+            name="date"
+            defaultValue={application.date}
+            required
+          />
+        </label>
+        <label htmlFor="submitted">
+          Submitted:
           <select name="submitted">
             <option>True</option>
             <option>False</option>
           </select>
         </label>
-        <label htmlFor="status">Status:
+        <label htmlFor="status">
+          Status:
           <select name="status">
             <option>Submitted</option>
             <option>Review/Pending</option>

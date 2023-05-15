@@ -15,6 +15,16 @@ export default function UpdateCompany() {
     <>
       <h1>Update Company</h1>
       <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+        <label htmlFor="company_id">
+          ID:
+          <input
+            type="number"
+            name="company_id"
+            defaultValue={company.company_id}
+            readOnly
+            required
+          />
+        </label>
         <label htmlFor="name">
           Name:
           <input
