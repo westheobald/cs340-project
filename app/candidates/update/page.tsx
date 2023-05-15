@@ -27,13 +27,13 @@ export default function UpdateCandidate() {
       <h1>Update Candidate</h1>
       <form onSubmit={(e) => handleSubmit(e, 'http:')}>
         <label htmlFor="candidate_id">
-          ID:
           <input
             type="number"
             name="candidate_id"
             defaultValue={candidate.candidate_id}
             readOnly
             required
+            hidden
           />
         </label>
         <label htmlFor="name">

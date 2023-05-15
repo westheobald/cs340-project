@@ -14,14 +14,14 @@ export default function EditApplicationStatus() {
       <h1>Edit Application Status</h1>
       <form onSubmit={(e) => handleSubmit(e, 'http;')}>
         <label htmlFor="status_id">
-          ID:
           <input
             type="number"
             name="status_id"
             defaultValue={status.status_id}
             readOnly
             required
-          />{' '}
+            hidden
+          />
         </label>
         <label htmlFor="message">
           Mesage:

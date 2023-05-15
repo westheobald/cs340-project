@@ -21,13 +21,13 @@ export default function UpdatePosting() {
       <h1>Update Posting</h1>
       <form onSubmit={(e) => handleSubmit(e, 'http://')}>
         <label htmlFor="posting_id">
-          ID:
           <input
             type="number"
             name="posting_id"
             defaultValue={posting.posting_id}
             readOnly
             required
+            hidden
           />
         </label>
         <label htmlFor="company_id">

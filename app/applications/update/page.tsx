@@ -17,13 +17,13 @@ export default function UpdateApplication() {
 
       <form onSubmit={(e) => handleSubmit(e, 'http://')}>
         <label htmlFor="application_id">
-          ID:
           <input
             type="number"
             name="application_id"
             defaultValue={application.application_id}
             readOnly
             required
+            hidden
           />
         </label>
         <label htmlFor="candidate_id">
@@ -34,6 +34,7 @@ export default function UpdateApplication() {
             defaultValue={application.candidate_id}
             readOnly
             required
+            hidden
           />
         </label>
         <label htmlFor="posting_id">
@@ -44,6 +45,7 @@ export default function UpdateApplication() {
             defaultValue={application.posting_id}
             readOnly
             required
+            hidden
           />
         </label>
         <label htmlFor="date">

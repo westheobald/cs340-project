@@ -15,13 +15,13 @@ export default function UpdateRecruiter() {
       <h1>Update Recruiter</h1>
       <form onSubmit={(e) => handleSubmit(e, 'http://')}>
         <label htmlFor="recruiter_id">
-          ID:
           <input
             type="number"
             name="recruiter_id"
             defaultValue={recruiter.recruiter_id}
             readOnly
             required
+            hidden
           />
         </label>
         <label htmlFor="name">
