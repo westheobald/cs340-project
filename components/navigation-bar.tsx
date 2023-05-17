@@ -20,6 +20,9 @@ export default function NavigationBar() {
         <li>
           <Link href="/applications">Applications</Link>
         </li>
+        <li>
+          <Link href="applications/status">Application Status</Link>
+        </li>
       </ul>
     </nav>
   );
