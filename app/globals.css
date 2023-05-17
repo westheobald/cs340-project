@@ -91,7 +91,7 @@ table th,
 table td {
   padding: 0.5em;
   border: 1px solid lightgrey;
-  max-width: 15rem;
+  word-wrap: break-word;
 }
 /* Zebra Table Style */
 [data-table-theme*='zebra'] tbody tr:nth-of-type(odd) {
