@@ -32,7 +32,6 @@ export default function Applications() {
       company_name,
       job_title,
       date,
-      submitted,
       message,
     } = applicationInfo;
     return (
@@ -41,7 +40,6 @@ export default function Applications() {
         <td>{company_name}</td>
         <td>{job_title}</td>
         <td>{date}</td>
-        <td>{submitted ? '1' : '0'}</td>
         <td>{message}</td>
         <td>
           <Link
@@ -75,7 +73,6 @@ export default function Applications() {
             <th>Company</th>
             <th>Job Title</th>
             <th>Date</th>
-            <th>Submitted</th>
             <th>Status</th>
             <th>Edit</th>
             <th>Delete</th>

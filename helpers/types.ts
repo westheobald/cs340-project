@@ -38,7 +38,6 @@ export type Application = {
   company_name: string;
   job_title: string;
   date: string;
-  submitted: boolean;
   status_id: number;
   message: string;
 };

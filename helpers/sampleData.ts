@@ -109,7 +109,6 @@ export const sampleApplication: Array<Application> = [
     company_name: 'Reilly and Sons',
     job_title: 'Mechanical Systems Engineer',
     date: '2022-06-07 10:20:45',
-    submitted: true,
     status_id: 1,
     message: 'submitted',
   },
