@@ -57,13 +57,6 @@ export default function UpdateApplication() {
             required
           />
         </label>
-        <label htmlFor="submitted">
-          Submitted:
-          <select name="submitted">
-            <option>True</option>
-            <option>False</option>
-          </select>
-        </label>
         <label htmlFor="status">
           Status:
           <select name="status">

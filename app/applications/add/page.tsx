@@ -57,13 +57,6 @@ export default function AddApplication() {
             ))}
           </select>
         </label>
-        <label htmlFor="submitted">
-          Submitted:
-          <select name="submitted" required>
-            <option>True</option>
-            <option>False</option>
-          </select>
-        </label>
         <label htmlFor="status">
           Status:
           <select name="status" required>
