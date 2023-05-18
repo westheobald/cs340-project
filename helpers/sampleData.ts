@@ -28,6 +28,15 @@ export const sampleCompanies: Array<Company> = [
     time_zone: '+01:00',
     industry: 'Building Products',
   },
+  {
+    company_id: 4,
+    name: 'Kunde Inc',
+    city: 'Sruki',
+    address: '087 Donald Point',
+    phone: '642-177-6732',
+    time_zone: '+00:00',
+    industry: 'Services-Misc. Amusement & Recreation',
+  },
 ];
 export const sampleRecruiters: Array<Recruiter> = [
   {
@@ -97,7 +106,34 @@ export const samplePostings: Array<Posting> = [
     job_title: 'Mechanical Systems Engineer',
     salary: 237881,
     post_start: '2023-06-06',
-    post_end: '2022-09-24',
+    post_end: '2023-09-24',
+  },
+  {
+    posting_id: 2,
+    company_id: 2,
+    company_name: 'Lowe, Larson and Brown',
+    job_title: 'Engineer I',
+    salary: 165353,
+    post_start: '2022-08-16',
+    post_end: '2023-05-04',
+  },
+  {
+    posting_id: 3,
+    company_id: 3,
+    company_name: 'Green-Ziemann',
+    job_title: 'Dental Hygienist',
+    salary: 91748,
+    post_start: '2022-05-10',
+    post_end: '2023-05-08',
+  },
+  {
+    posting_id: 4,
+    company_id: 4,
+    company_name: 'Kunde Inc',
+    job_title: 'Geological Engineer',
+    salary: 137555,
+    post_start: '2023-02-11',
+    post_end: '2023-10-16',
   },
 ];
 export const sampleApplication: Array<Application> = [
@@ -111,6 +147,30 @@ export const sampleApplication: Array<Application> = [
     date: '2022-06-07 10:20:45',
     status_id: 1,
     message: 'submitted',
+  },
+  {
+    application_id: 2,
+    candidate_id: 2,
+    candidate_name: 'Cathy Shackelton',
+    posting_id: 2,
+    company_name: 'Lowe, Larson and Brown',
+    job_title: 'Engineer I',
+    date: '2022-08-20 10:20:45',
+    submitted: true,
+    status_id: 3,
+    message: 'completed',
+  },
+  {
+    application_id: 3,
+    candidate_id: 3,
+    candidate_name: 'Gilda Kermitt',
+    posting_id: 3,
+    company_name: 'Green-Ziemann',
+    job_title: 'Dental Hygienist',
+    date: '2202-05-23 13:23:23',
+    submitted: true,
+    status_id: 2,
+    message: 'review/pending',
   },
 ];
 export const sampleApplicationStatus = [
