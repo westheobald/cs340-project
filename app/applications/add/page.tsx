@@ -57,6 +57,10 @@ export default function AddApplication() {
             ))}
           </select>
         </label>
+        <label htmlFor="date">
+          Date:
+          <input type="date" name="date" required />
+        </label>
         <label htmlFor="status">
           Status:
           <select name="status" required>
