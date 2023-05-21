@@ -1,14 +1,22 @@
 import { FormEvent } from 'react';
 
-export default function handleSubmit(
+export default async function handleSubmit(
   event: FormEvent<HTMLFormElement>,
-  url: string
+  url: string,
+  method: string,
 ) {
   event.preventDefault();
   if (event.currentTarget instanceof Element) {
     const data = new FormData(event.currentTarget);
     const values = Object.fromEntries(data.entries());
-    console.log(values);
-    // send values to database
+    const json = JSON.stringify(values);
+    console.log(json);
+    const res = await fetch(url, {
+      method: method,
+      body: JSON.stringify(values),
+      headers: { 'Content-Type': 'application/json' },
+    }).then((res) => res.json());
+    console.log(res);
+    return res;
   }
 }
