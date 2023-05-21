@@ -3,17 +3,29 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Candidate } from '@/helpers/types';
 
-import { sampleCandidates } from '@/helpers/sampleData';
-
 export default function Candidates() {
-  const [candidates, setCandidates]: [Array<Candidate>, Function] = useState([]);
+  const [candidates, setCandidates]: [Array<Candidate>, Function] = useState(
+    []
+  );
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/candidates');
+    const json = await res.json();
+    setCandidates(json);
+  }
   useEffect(() => {
-    setCandidates(sampleCandidates)
+    getData();
   }, []);
 
   function deleteRow(id: number, name: string): void {
+    async function deleteId(id: number) {
+      const res = await fetch(
+        `https://wesleytheobald.com/api/cs340/candidates/${id}`,
+        { method: 'DELETE' }
+      );
+      getData();
+    }
     if (confirm(`Are you sure you want to delete candidate: ${name}?`)) {
-      // delete
+      deleteId(id);
     }
   }
   function createRow(candidateInfo: Candidate) {

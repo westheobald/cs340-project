@@ -1,16 +1,26 @@
 'use client';
 import handleSubmit from '@/helpers/formSubmit';
-import { sampleCandidates } from '@/helpers/sampleData';
 import { Candidate } from '@/helpers/types';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState, FormEvent } from 'react';
 
 export default function AddApplication() {
+  const router = useRouter();
   const [candidates, setCandidates]: [Array<Candidate>, Function] = useState(
     []
   );
+
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/candidates');
+    const json = await res.json();
+    setCandidates(json);
+  }
+  async function add(e: FormEvent<HTMLFormElement>) {
+    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/applications', 'POST');
+    router.push('/applications')
+  }
   useEffect(() => {
-    setCandidates(sampleCandidates);
+    getData();
   }, []);
   const query = useSearchParams();
   const data = query.get('data');
@@ -23,7 +33,7 @@ export default function AddApplication() {
     <>
       <h1>Add Application</h1>
 
-      <form onSubmit={(e) => handleSubmit(e, 'http:')}>
+      <form onSubmit={add}>
         <label>
           Company:
           <select disabled>

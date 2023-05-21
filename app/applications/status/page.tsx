@@ -1,19 +1,32 @@
 'use client';
 import Link from 'next/link';
 import { ApplicationStatus } from '@/helpers/types';
-import { sampleApplicationStatus } from '@/helpers/sampleData';
 import { useEffect, useState } from 'react';
 export default function ApplicationStatus() {
   const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] =
     useState([]);
 
+  async function getData() {
+    const res = await fetch(
+      'https://wesleytheobald.com/api/cs340/application-statuses'
+    );
+    const json = await res.json();
+    setStatuses(json);
+  }
   useEffect(() => {
-    setStatuses(sampleApplicationStatus);
+    getData();
   }, []);
 
-  function deleteRow(id: number, message: string): void {
-    if (confirm(`Are you sure you want to delete status: ${message}?`)) {
-      // delete
+   function deleteRow(id: number, name: string): void {
+    async function deleteId(id: number) {
+      const res = await fetch(
+        `https://wesleytheobald.com/api/cs340/application-statuses/${id}`,
+        { method: 'DELETE' }
+      );
+      getData();
+    }
+    if (confirm(`Are you sure you want to delete status: ${name}?`)) {
+      deleteId(id);
     }
   }
   function createRow(statusInfo: ApplicationStatus) {

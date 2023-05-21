@@ -1,18 +1,28 @@
 'use client';
 import handleSubmit from '@/helpers/formSubmit';
-import { sampleCompanies } from '@/helpers/sampleData';
 import { Company } from '@/helpers/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AddPosting() {
+  const router = useRouter();
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
+    const json = await res.json();
+    setCompanies(json);
+  }
+  async function add(e: FormEvent<HTMLFormElement>) {
+    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/postings', 'POST');
+    router.push('/postings');
+  }
   useEffect(() => {
-    setCompanies(sampleCompanies);
+    getData();
   }, []);
   return (
     <>
       <h1>Add a Posting</h1>
-      <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+      <form onSubmit={add}>
         <label htmlFor="company_id">
           Company:
           <select name="company_id" required>

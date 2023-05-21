@@ -1,8 +1,9 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
-
+import { FormEvent } from 'react';
 export default function UpdateApplication() {
+  const router = useRouter();
   const query = useSearchParams();
   const data = query.get('data');
   let application;
@@ -10,12 +11,19 @@ export default function UpdateApplication() {
     application = JSON.parse(data);
   }
   application.date = new Date(application.date).toISOString();
-  console.log(application);
+  async function update(e: FormEvent<HTMLFormElement>) {
+    const res = await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/applications',
+      'PUT'
+    );
+    router.push('/applications');
+  }
   return (
     <>
       <h1>Update Application</h1>
 
-      <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+      <form onSubmit={update}>
         <label htmlFor="application_id">
           <input
             type="number"

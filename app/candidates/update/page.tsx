@@ -1,11 +1,12 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
 import { Recruiter } from '@/helpers/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { sampleRecruiters } from '@/helpers/sampleData';
 
 export default function UpdateCandidate() {
+  const router = useRouter();
   const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState(
     []
   );
@@ -21,11 +22,19 @@ export default function UpdateCandidate() {
   const [recruiter_id, setRecruiterId]: [number, Function] = useState(
     candidate.recruiter_id
   );
+  async function update(e: FormEvent<HTMLFormElement>) {
+    const res = await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/candidates',
+      'PUT'
+    );
+    router.push('/candidates');
+  }
 
   return (
     <>
       <h1>Update Candidate</h1>
-      <form onSubmit={(e) => handleSubmit(e, 'http:')}>
+      <form onSubmit={update}>
         <label htmlFor="candidate_id">
           <input
             type="number"
