@@ -1,11 +1,12 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { Company } from '@/helpers/types';
 import { sampleCompanies } from '@/helpers/sampleData';
 
 export default function UpdatePosting() {
+  const router = useRouter();
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
   useEffect(() => {
     setCompanies(sampleCompanies);
@@ -16,10 +17,18 @@ export default function UpdatePosting() {
   if (data) {
     posting = JSON.parse(data);
   }
+  async function update(e: FormEvent<HTMLFormElement>) {
+    const res = await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/postings',
+      'PUT'
+    );
+    router.push('/postings');
+  }
   return (
     <>
       <h1>Update Posting</h1>
-      <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+      <form onSubmit={update}>
         <label htmlFor="posting_id">
           <input
             type="number"

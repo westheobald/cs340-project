@@ -3,21 +3,30 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Company } from '@/helpers/types';
 
-import { sampleCompanies } from '@/helpers/sampleData';
-
 export default function Companies() {
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
-
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
+    const json = await res.json();
+    setCompanies(json);
+  }
   useEffect(() => {
-    setCompanies(sampleCompanies) // SET TO RETURN OF DATABASE FETCH
+    getData();
   }, []);
 
   function deleteRow(id: number, name: string): void {
+    async function deleteId(id: number) {
+      const res = await fetch(
+        `https://wesleytheobald.com/api/cs340/companies/${id}`,
+        { method: 'DELETE' }
+      );
+      getData();
+    }
     if (confirm(`Are you sure you want to delete company: ${name}?`)) {
-      // DELETE
+      deleteId(id);
     }
   }
- 
+
   function createRow(companyInfo: Company) {
     const { company_id, name, city, address, phone, time_zone, industry } =
       companyInfo;

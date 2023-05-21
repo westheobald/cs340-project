@@ -1,12 +1,20 @@
 'use client';
 import TimeZoneSelect from '@/components/time-zone-select';
 import handleSubmit from '@/helpers/formSubmit';
+import { useRouter } from 'next/navigation';
+import { FormEvent } from 'react';
 
 export default function AddCompany() {
+  const router = useRouter();
+
+  async function add(e: FormEvent<HTMLFormElement>) {
+    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/companies', 'POST');
+    router.push('/companies')
+  }
   return (
     <>
       <h1>Add a Company</h1>
-      <form onSubmit={(e) => handleSubmit(e, 'http://yes')}>
+      <form onSubmit={add}>
         <label htmlFor="name">
           Name:
           <input type="text" name="name" placeholder="Name" required />

@@ -7,9 +7,20 @@ import { useState, useEffect, FormEvent } from 'react';
 export default function Postings() {
   const [postings, setPostings]: [Array<Posting>, Function] = useState([]);
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
+  async function getPostings() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/postings');
+    const json = await res.json();
+    setPostings(json);
+  }
+  async function getCompanies() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
+    const json = await res.json();
+    setCompanies(json);
+  }
+
   useEffect(() => {
-    setPostings(samplePostings);
-    setCompanies(sampleCompanies);
+    getPostings();
+    getCompanies();
   }, []);
 
   function filter(event: FormEvent<HTMLFormElement>): void {
@@ -22,12 +33,19 @@ export default function Postings() {
   }
 
   function deleteRow(id: number, name: string, job_title: string): void {
+    async function deleteId(id: number) {
+      const res = await fetch(
+        `https://wesleytheobald.com/api/cs340/companies/${id}`,
+        { method: 'DELETE' }
+      );
+      getPostings();
+    }
     if (
       confirm(
         `Are you sure you want to delete posting: ${name} - ${job_title}?`
       )
     ) {
-      // delete
+      deleteId(id);
     }
   }
 

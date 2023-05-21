@@ -7,8 +7,15 @@ import { useEffect, useState } from 'react';
 export default function Applications() {
   const [applications, setApplications]: [Array<Application>, Function] =
     useState([]);
+  async function getData() {
+    const res = await fetch(
+      'https://wesleytheobald.com/api/cs340/applications'
+    );
+    const json = await res.json();
+    setApplications(json);
+  }
   useEffect(() => {
-    setApplications(sampleApplication);
+    getData();
   }, []);
 
   function deleteRow(
@@ -17,12 +24,19 @@ export default function Applications() {
     company: string,
     job: string
   ): void {
+    async function deleteId(id: number) {
+      const res = await fetch(
+        `https://wesleytheobald.com/api/cs340/applications/${id}`,
+        { method: 'DELETE' }
+      );
+      getData();
+    }
     if (
       confirm(
         `Are you sure you want to delete application: ${name} at ${company} - ${job}?`
       )
     ) {
-      // DELETE
+      deleteId(id);
     }
   }
   function createRow(applicationInfo: Application) {

@@ -6,15 +6,28 @@ import { Recruiter } from '@/helpers/types';
 import { sampleRecruiters } from '@/helpers/sampleData';
 
 export default function Recruiters() {
-  const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState([]);
-
+  const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState(
+    []
+  );
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/recruiters');
+    const json = await res.json();
+    setRecruiters(json);
+  }
   useEffect(() => {
-    setRecruiters(sampleRecruiters)
+    getData();
   }, []);
 
   function deleteRow(id: number, name: string): void {
+    async function deleteId(id: number) {
+      const res = await fetch(
+        `https://wesleytheobald.com/api/cs340/recruiters/${id}`,
+        { method: 'DELETE' }
+      );
+      getData();
+    }
     if (confirm(`Are you sure you want to delete recruiter: ${name}?`)) {
-      // delete
+      deleteId(id);
     }
   }
 

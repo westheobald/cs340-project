@@ -2,19 +2,30 @@
 import TimeZoneSelect from '@/components/time-zone-select';
 import { useSearchParams } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
+import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function UpdateCompany() {
+  const router = useRouter();
   const query = useSearchParams();
   const data = query.get('data');
   let company;
   if (data) {
     company = JSON.parse(data);
   }
+  async function update(e: FormEvent<HTMLFormElement>) {
+    const res = await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/companies',
+      'PUT'
+    );
+    router.push('/companies');
+  }
 
   return (
     <>
       <h1>Update Company</h1>
-      <form onSubmit={(e) => handleSubmit(e, 'http://')}>
+      <form onSubmit={update}>
         <label htmlFor="company_id">
           <input
             type="number"
