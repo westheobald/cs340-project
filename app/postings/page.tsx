@@ -10,6 +10,7 @@ export default function Postings() {
     const res = await fetch('https://wesleytheobald.com/api/cs340/postings');
     const json = await res.json();
     setPostings(json);
+    return json;
   }
   async function getCompanies() {
     const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
@@ -26,6 +27,9 @@ export default function Postings() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const company_id = data.get('filter');
+    if (!company_id) {
+      return getPostings();
+    }
     const res = await fetch(`https://wesleytheobald.com/api/cs340/postings/${company_id}`);
     const json = await res.json();
     setPostings(json);
@@ -108,7 +112,7 @@ export default function Postings() {
       >
         <label htmlFor="filter">
           Filter By Company:
-          <select name="filter" required>
+          <select name="filter">
             <option value="">-</option>
             {companies.map((company: Company) => (
               <option key={company.company_id} value={company.company_id}>
