@@ -3,15 +3,19 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
 import { Recruiter } from '@/helpers/types';
 import { useEffect, useState, FormEvent } from 'react';
-import { sampleRecruiters } from '@/helpers/sampleData';
 
 export default function UpdateCandidate() {
   const router = useRouter();
   const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState(
     []
   );
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/recruiters');
+    const json = await res.json();
+    setRecruiters(json);
+  }
   useEffect(() => {
-    setRecruiters(sampleRecruiters);
+    getData();
   }, []);
   const query = useSearchParams();
   const data = query.get('data');
@@ -19,9 +23,6 @@ export default function UpdateCandidate() {
   if (data) {
     candidate = JSON.parse(data);
   }
-  const [recruiter_id, setRecruiterId]: [number, Function] = useState(
-    candidate.recruiter_id
-  );
   async function update(e: FormEvent<HTMLFormElement>) {
     const res = await handleSubmit(
       e,
@@ -76,11 +77,7 @@ export default function UpdateCandidate() {
         </label>
         <label htmlFor="recruiter_id">
           Recruiter:
-          <select
-            name="recrtuier_id"
-            value={recruiter_id}
-            onChange={(e) => setRecruiterId(e.target.value)}
-          >
+          <select name="recruiter_id">
             <option value="">-</option>
             {recruiters.map((recruiter) => (
               <option

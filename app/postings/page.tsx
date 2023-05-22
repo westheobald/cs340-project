@@ -1,5 +1,4 @@
 'use client';
-import { sampleCompanies, samplePostings } from '@/helpers/sampleData';
 import { Company, Posting } from '@/helpers/types';
 import Link from 'next/link';
 import { useState, useEffect, FormEvent } from 'react';
@@ -23,19 +22,20 @@ export default function Postings() {
     getCompanies();
   }, []);
 
-  function filter(event: FormEvent<HTMLFormElement>): void {
+  async function filter(event: FormEvent<HTMLFormElement>): Promise<object> {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const company_id = data.get('filter');
-    console.log(company_id);
-    // filter then
-    // setPostings()
+    const res = await fetch(`https://wesleytheobald.com/api/cs340/postings/${company_id}`);
+    const json = await res.json();
+    setPostings(json);
+    return json;
   }
 
   function deleteRow(id: number, name: string, job_title: string): void {
     async function deleteId(id: number) {
       const res = await fetch(
-        `https://wesleytheobald.com/api/cs340/companies/${id}`,
+        `https://wesleytheobald.com/api/cs340/postings/${id}`,
         { method: 'DELETE' }
       );
       getPostings();
@@ -58,6 +58,8 @@ export default function Postings() {
       post_start,
       post_end,
     } = postingInfo;
+    const startDate = new Date(post_start);
+    const endDate = new Date(post_end);
     return (
       <tr key={posting_id}>
         <td>
@@ -73,8 +75,8 @@ export default function Postings() {
         <td>{company_name}</td>
         <td>{job_title}</td>
         <td>{salary}</td>
-        <td>{post_start}</td>
-        <td>{post_end}</td>
+        <td>{`${startDate.getUTCFullYear()}-${startDate.getUTCMonth() + 1}-${startDate.getUTCDate()}`}</td>
+        <td>{`${endDate.getUTCFullYear()}-${endDate.getUTCMonth() + 1}-${endDate.getUTCDate()}`}</td>
         <td>
           <Link
             href={{

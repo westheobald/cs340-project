@@ -17,7 +17,7 @@ export default function EditApplicationStatus() {
       'https://wesleytheobald.com/api/cs340/application-statuses',
       'PUT'
     );
-    router.push('/application/status');
+    router.push('/applications/status');
   }
   return (
     <>
