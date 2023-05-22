@@ -39,7 +39,7 @@ export default function AddCandidate() {
         </label>
         <label htmlFor="recruiter_id">
           Recruiter:
-          <select name="recrtuier_id">
+          <select name="recruiter_id">
             <option value="">-</option>
             {recruiters.map((recruiter) => (
               <option

@@ -1,5 +1,4 @@
 'use client';
-import { sampleApplication } from '@/helpers/sampleData';
 import { Application } from '@/helpers/types';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -48,12 +47,13 @@ export default function Applications() {
       date,
       message,
     } = applicationInfo;
+    const dateString = new Date(date);
     return (
       <tr key={application_id}>
         <td>{candidate_name}</td>
         <td>{company_name}</td>
         <td>{job_title}</td>
-        <td>{date}</td>
+        <td>{dateString.toUTCString()}</td>
         <td>{message}</td>
         <td>
           <Link

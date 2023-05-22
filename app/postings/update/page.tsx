@@ -3,13 +3,17 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
 import { useEffect, useState, FormEvent } from 'react';
 import { Company } from '@/helpers/types';
-import { sampleCompanies } from '@/helpers/sampleData';
 
 export default function UpdatePosting() {
   const router = useRouter();
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
+  async function getData() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
+    const json = await res.json();
+    setCompanies(json);
+  }
   useEffect(() => {
-    setCompanies(sampleCompanies);
+    getData();
   }, []);
   const query = useSearchParams();
   const data = query.get('data');
@@ -17,6 +21,9 @@ export default function UpdatePosting() {
   if (data) {
     posting = JSON.parse(data);
   }
+  const startDate = new Date(posting.post_start);
+  const endDate = new Date(posting.post_end);
+
   async function update(e: FormEvent<HTMLFormElement>) {
     const res = await handleSubmit(
       e,
@@ -78,7 +85,7 @@ export default function UpdatePosting() {
           <input
             type="date"
             name="post_start"
-            defaultValue={posting.post_start}
+            defaultValue={startDate.toISOString().slice(0, 10)}
             required
           />
         </label>
@@ -87,7 +94,7 @@ export default function UpdatePosting() {
           <input
             type="date"
             name="post_end"
-            defaultValue={posting.post_end}
+            defaultValue={endDate.toISOString().slice(0, 10)}
             required
           />
         </label>

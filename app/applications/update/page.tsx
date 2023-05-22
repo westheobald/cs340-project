@@ -61,7 +61,7 @@ export default function UpdateApplication() {
           <input
             type="datetime-local"
             name="date"
-            defaultValue={application.date}
+            defaultValue={application.date.slice(0, 16)}
             required
           />
         </label>

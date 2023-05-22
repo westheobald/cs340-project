@@ -1,6 +1,6 @@
 'use client';
 import handleSubmit from '@/helpers/formSubmit';
-import { Candidate } from '@/helpers/types';
+import { ApplicationStatus, Candidate } from '@/helpers/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState, FormEvent } from 'react';
 
@@ -9,18 +9,33 @@ export default function AddApplication() {
   const [candidates, setCandidates]: [Array<Candidate>, Function] = useState(
     []
   );
+  const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] =
+    useState([]);
 
-  async function getData() {
+  async function getCandidates() {
     const res = await fetch('https://wesleytheobald.com/api/cs340/candidates');
     const json = await res.json();
     setCandidates(json);
   }
+  async function getStatus() {
+    const res = await fetch(
+      'https://wesleytheobald.com/api/cs340/application-statuses'
+    );
+    const json = await res.json();
+    setStatuses(json);
+  }
+
   async function add(e: FormEvent<HTMLFormElement>) {
-    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/applications', 'POST');
-    router.push('/applications')
+    await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/applications',
+      'POST'
+    );
+    router.push('/applications');
   }
   useEffect(() => {
-    getData();
+    getCandidates();
+    getStatus();
   }, []);
   const query = useSearchParams();
   const data = query.get('data');
@@ -69,16 +84,16 @@ export default function AddApplication() {
         </label>
         <label htmlFor="date">
           Date:
-          <input type="date" name="date" required />
+          <input type="datetime-local" name="date" required />
         </label>
-        <label htmlFor="status">
+        <label htmlFor="status_id">
           Status:
-          <select name="status" required>
-            <option>Submitted</option>
-            <option>Review/Pending</option>
-            <option>Completed</option>
-            <option>Offer Extended</option>
-            <option>Not Interested</option>
+          <select name="status_id" required>
+            {statuses.map((status) => (
+              <option key={status.status_id} value={status.status_id}>
+                {status.message}
+              </option>
+            ))}
           </select>
         </label>
         <input type="submit" />
