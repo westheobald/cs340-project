@@ -71,7 +71,7 @@ export default function UpdatePosting() {
           />
         </label>
         <label htmlFor="salary">
-          Salary:
+          Salary (in thousands):
           <input
             type="number"
             min="0"

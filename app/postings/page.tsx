@@ -131,7 +131,7 @@ export default function Postings() {
             <th>Add Application</th>
             <th>Company</th>
             <th>Job Title</th>
-            <th>Salary</th>
+            <th>Salary (in thousands)</th>
             <th>Post Start</th>
             <th>Post End</th>
             <th>Edit</th>

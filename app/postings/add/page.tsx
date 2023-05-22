@@ -23,7 +23,6 @@ export default function AddPosting() {
   useEffect(() => {
     getData();
   }, []);
-  const currentDate = new Date();
   return (
     <>
       <h1>Add a Posting</h1>
@@ -48,7 +47,7 @@ export default function AddPosting() {
           />
         </label>
         <label htmlFor="salary">
-          Salary:
+          Salary (in thousands):
           <input type="number" min="0" name="salary" required />
         </label>
         <label htmlFor="post_start">
