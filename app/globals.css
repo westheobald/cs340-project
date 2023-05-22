@@ -79,6 +79,10 @@ table {
   font-size: 12pt;
   border-collapse: collapse;
 }
+table tbody tr td:last-of-type {
+  text-decoration: underline;
+  cursor: pointer;
+}
 table thead th,
 table tfoot th {
   color: #777;
