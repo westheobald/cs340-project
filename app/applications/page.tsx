@@ -1,22 +1,43 @@
 'use client';
-import { Application } from '@/helpers/types';
+import { Application, Company } from '@/helpers/types';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 
 export default function Applications() {
   const [applications, setApplications]: [Array<Application>, Function] =
     useState([]);
-  async function getData() {
+  const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
+  async function getApplications() {
     const res = await fetch(
       'https://wesleytheobald.com/api/cs340/applications'
     );
     const json = await res.json();
     setApplications(json);
+    return json;
+  }
+  async function getCompanies() {
+    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
+    const json = await res.json();
+    setCompanies(json);
   }
   useEffect(() => {
-    getData();
+    getApplications();
+    getCompanies();
   }, []);
-
+  async function filter(event: FormEvent<HTMLFormElement>): Promise<object> {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const company_id = data.get('filter');
+    if (!company_id) {
+      return getApplications();
+    }
+    const res = await fetch(
+      `https://wesleytheobald.com/api/cs340/applications/${company_id}`
+    );
+    const json = await res.json();
+    setApplications(json);
+    return json;
+  }
   function deleteRow(
     id: number,
     name: string,
@@ -28,7 +49,8 @@ export default function Applications() {
         `https://wesleytheobald.com/api/cs340/applications/${id}`,
         { method: 'DELETE' }
       );
-      getData();
+      getApplications();
+      return await res.json();
     }
     if (
       confirm(
@@ -79,6 +101,27 @@ export default function Applications() {
     <>
       <h1>Applications</h1>
       <Link href="applications/status">Application Statuses</Link>
+      <form
+        onSubmit={(e) => filter(e)}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'right',
+        }}
+      >
+        <label htmlFor="filter">
+          Filter By Company:
+          <select name="filter">
+            <option value="">-</option>
+            {companies.map((company: Company) => (
+              <option key={company.company_id} value={company.company_id}>
+                {company.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <input type="submit" style={{ height: '1rem', width: '3rem' }} />
+      </form>
       <table>
         <caption>Current Applications</caption>
         <thead>
