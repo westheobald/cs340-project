@@ -18,7 +18,7 @@ export default function UpdateRecruiter() {
       'https://wesleytheobald.com/api/cs340/recruiters',
       'PUT'
     );
-    router.push('/companies');
+    router.push('/recruiters');
   }
   return (
     <>

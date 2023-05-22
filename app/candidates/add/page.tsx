@@ -14,7 +14,7 @@ export default function AddCandidate() {
     setRecruiters(json);
   }
   async function add(e: FormEvent<HTMLFormElement>) {
-    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/candidates', 'POST');
+    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/candidates', 'POST');
     router.push('/candidates');
   }
 

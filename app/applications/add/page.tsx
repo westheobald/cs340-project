@@ -16,7 +16,7 @@ export default function AddApplication() {
     setCandidates(json);
   }
   async function add(e: FormEvent<HTMLFormElement>) {
-    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/applications', 'POST');
+    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/applications', 'POST');
     router.push('/applications')
   }
   useEffect(() => {

@@ -6,7 +6,7 @@ export default function AddApplicationStatus() {
   const router = useRouter();
 
   async function add(e: FormEvent<HTMLFormElement>) {
-    handleSubmit(
+    await handleSubmit(
       e,
       'https://wesleytheobald.com/api/cs340/application-statuses',
       'POST'

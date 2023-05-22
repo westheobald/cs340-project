@@ -13,7 +13,7 @@ export default function AddPosting() {
     setCompanies(json);
   }
   async function add(e: FormEvent<HTMLFormElement>) {
-    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/postings', 'POST');
+    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/postings', 'POST');
     router.push('/postings');
   }
   useEffect(() => {
