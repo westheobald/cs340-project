@@ -1,8 +1,21 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
 import handleSubmit from '@/helpers/formSubmit';
-import { FormEvent } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
+import { ApplicationStatus } from '@/helpers/types';
 export default function UpdateApplication() {
+  const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] = useState([]);
+
+  async function getData() {
+    const res = await fetch(
+      'https://wesleytheobald.com/api/cs340/application-statuses'
+    );
+    const json = await res.json();
+    setStatuses(json);
+  }
+  useEffect(() => {
+    getData();
+  });
   const router = useRouter();
   const query = useSearchParams();
   const data = query.get('data');
@@ -65,14 +78,14 @@ export default function UpdateApplication() {
             required
           />
         </label>
-        <label htmlFor="status">
+        <label htmlFor="status_id">
           Status:
-          <select name="status">
-            <option>Submitted</option>
-            <option>Review/Pending</option>
-            <option>Completed</option>
-            <option>Offer Extended</option>
-            <option>Not Interested</option>
+          <select name="status_id">
+            {statuses.map((status) => (
+              <option key={status.status_id} value={status.status_id}>
+                {status.message}
+              </option>
+            ))}
           </select>
         </label>
         <input type="submit" />
