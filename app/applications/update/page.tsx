@@ -1,21 +1,22 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
-import handleSubmit from '@/helpers/formSubmit';
 import { FormEvent, useState, useEffect } from 'react';
 import { ApplicationStatus } from '@/helpers/types';
 export default function UpdateApplication() {
-  const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] = useState([]);
+  const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] =
+    useState([]);
 
   async function getData() {
     const res = await fetch(
       'https://wesleytheobald.com/api/cs340/application-statuses'
     );
     const json = await res.json();
+    json.date = '1';
     setStatuses(json);
   }
   useEffect(() => {
     getData();
-  });
+  }, []);
   const router = useRouter();
   const query = useSearchParams();
   const data = query.get('data');
@@ -23,13 +24,32 @@ export default function UpdateApplication() {
   if (data) {
     application = JSON.parse(data);
   }
-  application.date = new Date(application.date).toISOString();
+  const date = new Date(application.date);
+  const localeDate = `${date.getFullYear()}-${String(
+    date.getMonth() + 1
+  ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  const localeTime = `${String(date.getHours()).padStart(2, '0')}:${String(
+    date.getMinutes()
+  ).padStart(2, '0')}`;
+  application.date = localeDate + 'T' + localeTime;
   async function update(e: FormEvent<HTMLFormElement>) {
-    const res = await handleSubmit(
-      e,
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const values = Object.fromEntries(data.entries());
+    values.date = new Date(String(values.date)).toISOString();
+    const dateFormat = values.date.slice(0, 10);
+    const timeFormat = values.date.slice(11, 16);
+    values.date = `${dateFormat} ${timeFormat}`;
+
+    const json = JSON.stringify(values);
+    const res = await fetch(
       'https://wesleytheobald.com/api/cs340/applications',
-      'PUT'
-    );
+      {
+        method: 'PUT',
+        body: json,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    ).then((res) => res.json());
     router.push('/applications');
   }
   return (

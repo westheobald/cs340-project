@@ -13,12 +13,17 @@ export default function AddPosting() {
     setCompanies(json);
   }
   async function add(e: FormEvent<HTMLFormElement>) {
-    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/postings', 'POST');
+    await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/postings',
+      'POST'
+    );
     router.push('/postings');
   }
   useEffect(() => {
     getData();
   }, []);
+  const currentDate = new Date();
   return (
     <>
       <h1>Add a Posting</h1>
@@ -48,11 +53,21 @@ export default function AddPosting() {
         </label>
         <label htmlFor="post_start">
           Post Start:
-          <input type="date" name="post_start" required />
+          <input
+            type="date"
+            name="post_start"
+            defaultValue={new Date().toISOString().slice(0, 10)}
+            required
+          />
         </label>
         <label htmlFor="post_end">
           Post End:
-          <input type="date" name="post_end" required />
+          <input
+            type="date"
+            name="post_end"
+            defaultValue={new Date().toISOString().slice(0, 10)}
+            required
+          />
         </label>
         <input type="submit" />
       </form>

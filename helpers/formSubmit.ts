@@ -9,8 +9,6 @@ export default async function handleSubmit(
   if (event.currentTarget instanceof Element) {
     const data = new FormData(event.currentTarget);
     const values = Object.fromEntries(data.entries());
-    const json = JSON.stringify(values);
-    console.log(json);
     const res = await fetch(url, {
       method: method,
       body: JSON.stringify(values),

@@ -1,5 +1,4 @@
 'use client';
-import handleSubmit from '@/helpers/formSubmit';
 import { ApplicationStatus, Candidate } from '@/helpers/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState, FormEvent } from 'react';
@@ -26,11 +25,20 @@ export default function AddApplication() {
   }
 
   async function add(e: FormEvent<HTMLFormElement>) {
-    await handleSubmit(
-      e,
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const values: { date?: string | Date } = Object.fromEntries(data.entries());
+    values.date = new Date().toISOString();
+    values.date = `${values.date.slice(0, 10)} ${values.date.slice(11, 16)}:00`;
+    const json = JSON.stringify(values);
+    const res = await fetch(
       'https://wesleytheobald.com/api/cs340/applications',
-      'POST'
-    );
+      {
+        method: 'POST',
+        body: json,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    ).then((res) => res.json());
     router.push('/applications');
   }
   useEffect(() => {
@@ -43,6 +51,20 @@ export default function AddApplication() {
   if (data) {
     posting = JSON.parse(data);
   }
+  function formatDate(date: Date) {
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      date.getDate() +
+      'T' +
+      date.getHours().toString().padStart(2, '0') +
+      ':' +
+      date.getMinutes().toString().padStart(2, '0')
+    );
+  }
+  const currentDate = formatDate(new Date());
 
   return (
     <>
@@ -83,8 +105,13 @@ export default function AddApplication() {
           </select>
         </label>
         <label htmlFor="date">
-          Date:
-          <input type="datetime-local" name="date" required />
+          Date (GMT):
+          <input
+            type="datetime-local"
+            name="date"
+            defaultValue={currentDate}
+            required
+          />
         </label>
         <label htmlFor="status_id">
           Status:
