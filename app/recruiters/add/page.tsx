@@ -8,7 +8,7 @@ export default function AddRecruiter() {
   const router = useRouter();
 
   async function add(e: FormEvent<HTMLFormElement>) {
-    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/recruiters', 'POST');
+    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/recruiters', 'POST');
     router.push('/recruiters');
   }
   return (

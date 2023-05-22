@@ -8,7 +8,7 @@ export default function AddCompany() {
   const router = useRouter();
 
   async function add(e: FormEvent<HTMLFormElement>) {
-    handleSubmit(e, 'https://wesleytheobald.com/api/cs340/companies', 'POST');
+    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/companies', 'POST');
     router.push('/companies')
   }
   return (
