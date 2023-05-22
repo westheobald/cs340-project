@@ -17,7 +17,7 @@ export default function ApplicationStatus() {
     getData();
   }, []);
 
-   function deleteRow(id: number, name: string): void {
+   /* function deleteRow(id: number, name: string): void {
     async function deleteId(id: number) {
       const res = await fetch(
         `https://wesleytheobald.com/api/cs340/application-statuses/${id}`,
@@ -28,7 +28,7 @@ export default function ApplicationStatus() {
     if (confirm(`Are you sure you want to delete status: ${name}?`)) {
       deleteId(id);
     }
-  }
+  } */
   function createRow(statusInfo: ApplicationStatus) {
     const { status_id, message } = statusInfo;
     return (
@@ -44,7 +44,7 @@ export default function ApplicationStatus() {
             EDIT
           </Link>
         </td>
-        <td onClick={(_) => deleteRow(status_id, message)}>DELETE</td>
+        {/* <td onClick={(_) => deleteRow(status_id, message)}>DELETE</td> */}
       </tr>
     );
   }
@@ -57,7 +57,7 @@ export default function ApplicationStatus() {
           <tr>
             <th>Message</th>
             <th>Edit</th>
-            <th>Delete</th>
+            {/* <th>Delete</th> */}
           </tr>
         </thead>
         <tbody>{statuses.map((el) => createRow(el))}</tbody>
