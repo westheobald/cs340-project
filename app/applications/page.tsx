@@ -1,66 +1,60 @@
 'use client';
-import { Application, Company } from '@/helpers/types';
 import Link from 'next/link';
-import { useEffect, useState, FormEvent } from 'react';
+import { useEffect, useState, FormEvent, ReactElement } from 'react';
+
+import { Application, Company } from '@/helpers/types';
 
 export default function Applications() {
   const [applications, setApplications]: [Array<Application>, Function] =
     useState([]);
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
+
   async function getApplications() {
-    const res = await fetch(
+    const json = await fetch(
       'https://wesleytheobald.com/api/cs340/applications'
-    );
-    const json = await res.json();
+    ).then((res) => res.json());
     setApplications(json);
-    return json;
   }
   async function getCompanies() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
-    const json = await res.json();
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/companies'
+    ).then((res) => res.json());
     setCompanies(json);
   }
   useEffect(() => {
     getApplications();
     getCompanies();
   }, []);
-  async function filter(event: FormEvent<HTMLFormElement>): Promise<object> {
+
+  async function filter(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const company_id = data.get('filter');
-    if (!company_id) {
-      return getApplications();
-    }
-    const res = await fetch(
+    if (!company_id) return getApplications();
+    const json = await fetch(
       `https://wesleytheobald.com/api/cs340/applications/${company_id}`
-    );
-    const json = await res.json();
+    ).then((res) => res.json());
     setApplications(json);
-    return json;
   }
-  function deleteRow(
+
+  async function deleteRow(
     id: number,
     name: string,
     company: string,
     job: string
-  ): void {
-    async function deleteId(id: number) {
-      const res = await fetch(
-        `https://wesleytheobald.com/api/cs340/applications/${id}`,
-        { method: 'DELETE' }
-      );
-      getApplications();
-      return await res.json();
-    }
+  ) {
     if (
       confirm(
         `Are you sure you want to delete application: ${name} at ${company} - ${job}?`
       )
     ) {
-      deleteId(id);
+      await fetch(`https://wesleytheobald.com/api/cs340/applications/${id}`, {
+        method: 'DELETE',
+      });
+      getApplications();
     }
   }
-  function createRow(applicationInfo: Application) {
+  function createRow(applicationInfo: Application): ReactElement {
     const {
       application_id,
       candidate_name,
@@ -70,6 +64,7 @@ export default function Applications() {
       message,
     } = applicationInfo;
     const dateString = new Date(date);
+
     return (
       <tr key={application_id}>
         <td>{candidate_name}</td>
@@ -100,9 +95,8 @@ export default function Applications() {
   return (
     <>
       <h1>Applications</h1>
-      <Link href="applications/status">Application Statuses</Link>
       <form
-        onSubmit={(e) => filter(e)}
+        onSubmit={filter}
         style={{
           flexDirection: 'row',
           alignItems: 'center',

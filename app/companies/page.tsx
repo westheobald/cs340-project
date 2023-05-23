@@ -1,33 +1,33 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import Link from 'next/link';
-import { Company } from '@/helpers/types';
+
+import { Company } from '@/helpers/types'; // company object type definitiion
 
 export default function Companies() {
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
-  async function getData() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
-    const json = await res.json();
+
+  async function getCompanies() {
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/companies'
+    ).then((res) => res.json());
     setCompanies(json);
   }
+
   useEffect(() => {
-    getData();
+    getCompanies();
   }, []);
 
-  function deleteRow(id: number, name: string): void {
-    async function deleteId(id: number) {
-      const res = await fetch(
-        `https://wesleytheobald.com/api/cs340/companies/${id}`,
-        { method: 'DELETE' }
-      );
-      getData();
-    }
+  async function deleteRow(id: number, name: string) {
     if (confirm(`Are you sure you want to delete company: ${name}?`)) {
-      deleteId(id);
+      await fetch(`https://wesleytheobald.com/api/cs340/companies/${id}`, {
+        method: 'DELETE',
+      });
+      await getCompanies();
     }
   }
 
-  function createRow(companyInfo: Company) {
+  function createRow(companyInfo: Company): ReactElement {
     const { company_id, name, city, address, phone, time_zone, industry } =
       companyInfo;
     return (

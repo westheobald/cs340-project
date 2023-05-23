@@ -1,20 +1,22 @@
 'use client';
-import { Company, Posting } from '@/helpers/types';
+import { useState, useEffect, FormEvent, ReactElement } from 'react';
 import Link from 'next/link';
-import { useState, useEffect, FormEvent } from 'react';
+
+import { Company, Posting } from '@/helpers/types';
 
 export default function Postings() {
   const [postings, setPostings]: [Array<Posting>, Function] = useState([]);
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
   async function getPostings() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/postings');
-    const json = await res.json();
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/postings'
+    ).then((res) => res.json());
     setPostings(json);
-    return json;
   }
   async function getCompanies() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
-    const json = await res.json();
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/companies'
+    ).then((res) => res.json());
     setCompanies(json);
   }
 
@@ -23,37 +25,35 @@ export default function Postings() {
     getCompanies();
   }, []);
 
-  async function filter(event: FormEvent<HTMLFormElement>): Promise<object> {
+  async function filter(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const company_id = data.get('filter');
     if (!company_id) {
-      return getPostings();
+      // if no id filter no postings
+      getPostings();
+    } else {
+      const json = await fetch(
+        `https://wesleytheobald.com/api/cs340/postings/${company_id}`
+      ).then((res) => res.json());
+      setPostings(json);
     }
-    const res = await fetch(`https://wesleytheobald.com/api/cs340/postings/${company_id}`);
-    const json = await res.json();
-    setPostings(json);
-    return json;
   }
 
-  function deleteRow(id: number, name: string, job_title: string): void {
-    async function deleteId(id: number) {
-      const res = await fetch(
-        `https://wesleytheobald.com/api/cs340/postings/${id}`,
-        { method: 'DELETE' }
-      );
-      getPostings();
-    }
+  async function deleteRow(id: number, name: string, job_title: string) {
     if (
       confirm(
         `Are you sure you want to delete posting: ${name} - ${job_title}?`
       )
     ) {
-      deleteId(id);
+      await fetch(`https://wesleytheobald.com/api/cs340/postings/${id}`, {
+        method: 'DELETE',
+      });
+      getPostings();
     }
   }
 
-  function createRow(postingInfo: Posting) {
+  function createRow(postingInfo: Posting): ReactElement {
     const {
       posting_id,
       company_name,
@@ -62,8 +62,15 @@ export default function Postings() {
       post_start,
       post_end,
     } = postingInfo;
+
     const startDate = new Date(post_start);
+    const startFormated = `${startDate.getUTCFullYear()}-${startDate.getUTCMonth() + 1
+      }-${startDate.getUTCDate()}`;
+
     const endDate = new Date(post_end);
+    const endFormated = `${endDate.getUTCFullYear()}-${endDate.getUTCMonth() + 1
+      }-${endDate.getUTCDate()}`;
+
     return (
       <tr key={posting_id}>
         <td>
@@ -79,8 +86,8 @@ export default function Postings() {
         <td>{company_name}</td>
         <td>{job_title}</td>
         <td>{salary}</td>
-        <td>{`${startDate.getUTCFullYear()}-${startDate.getUTCMonth() + 1}-${startDate.getUTCDate()}`}</td>
-        <td>{`${endDate.getUTCFullYear()}-${endDate.getUTCMonth() + 1}-${endDate.getUTCDate()}`}</td>
+        <td>{startFormated}</td>
+        <td>{endFormated}</td>
         <td>
           <Link
             href={{
@@ -103,7 +110,7 @@ export default function Postings() {
       <h1>Postings</h1>
       <Link href="/postings/add">Add Posting</Link>
       <form
-        onSubmit={(e) => filter(e)}
+        onSubmit={filter}
         style={{
           flexDirection: 'row',
           alignItems: 'center',

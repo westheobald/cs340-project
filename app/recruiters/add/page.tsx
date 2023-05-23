@@ -1,14 +1,19 @@
 'use client';
-import TimeZoneSelect from '@/components/time-zone-select';
-import handleSubmit from '@/helpers/formSubmit';
-import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+
+import handleSubmit from '@/helpers/formSubmit'; // submits form (event, url, method)
+import TimeZoneSelect from '@/components/time-zone-select';
 
 export default function AddRecruiter() {
   const router = useRouter();
 
   async function add(e: FormEvent<HTMLFormElement>) {
-    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/recruiters', 'POST');
+    await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/recruiters',
+      'POST'
+    );
     router.push('/recruiters');
   }
   return (

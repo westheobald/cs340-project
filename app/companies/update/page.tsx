@@ -1,20 +1,19 @@
 'use client';
-import TimeZoneSelect from '@/components/time-zone-select';
-import { useSearchParams } from 'next/navigation';
-import handleSubmit from '@/helpers/formSubmit';
 import { FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+
+import handleSubmit from '@/helpers/formSubmit'; // submit form (event, url, method)
+import TimeZoneSelect from '@/components/time-zone-select'; // select input with options of all time zones
 
 export default function UpdateCompany() {
   const router = useRouter();
   const query = useSearchParams();
-  const data = query.get('data');
+  let data = query.get('data');
   let company;
-  if (data) {
-    company = JSON.parse(data);
-  }
+  if (data) company = JSON.parse(data);
+
   async function update(e: FormEvent<HTMLFormElement>) {
-    const res = await handleSubmit(
+    await handleSubmit(
       e,
       'https://wesleytheobald.com/api/cs340/companies',
       'PUT'

@@ -1,31 +1,34 @@
 'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
-import handleSubmit from '@/helpers/formSubmit';
 import { useEffect, useState, FormEvent } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+
+import handleSubmit from '@/helpers/formSubmit';
 import { Company } from '@/helpers/types';
 
 export default function UpdatePosting() {
   const router = useRouter();
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
-  async function getData() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
-    const json = await res.json();
+
+  async function getCompanies() {
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/companies'
+    ).then((res) => res.json());
     setCompanies(json);
   }
   useEffect(() => {
-    getData();
+    getCompanies();
   }, []);
+
   const query = useSearchParams();
   const data = query.get('data');
   let posting;
-  if (data) {
-    posting = JSON.parse(data);
-  }
+  if (data) posting = JSON.parse(data);
+
   const startDate = new Date(posting.post_start);
   const endDate = new Date(posting.post_end);
 
   async function update(e: FormEvent<HTMLFormElement>) {
-    const res = await handleSubmit(
+    await handleSubmit(
       e,
       'https://wesleytheobald.com/api/cs340/postings',
       'PUT'

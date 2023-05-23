@@ -1,15 +1,17 @@
 'use client';
-import handleSubmit from '@/helpers/formSubmit';
-import { Company } from '@/helpers/types';
 import { useEffect, useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+
+import handleSubmit from '@/helpers/formSubmit';
+import { Company } from '@/helpers/types';
 
 export default function AddPosting() {
   const router = useRouter();
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
-  async function getData() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/companies');
-    const json = await res.json();
+  async function getCompanies() {
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/companies'
+    ).then((res) => res.json());
     setCompanies(json);
   }
   async function add(e: FormEvent<HTMLFormElement>) {
@@ -21,7 +23,7 @@ export default function AddPosting() {
     router.push('/postings');
   }
   useEffect(() => {
-    getData();
+    getCompanies();
   }, []);
   return (
     <>

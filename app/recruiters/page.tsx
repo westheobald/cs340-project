@@ -1,37 +1,34 @@
 'use client';
+import { ReactElement, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { Recruiter } from '@/helpers/types';
 
-import { sampleRecruiters } from '@/helpers/sampleData';
+import { Recruiter } from '@/helpers/types'; // Recruiter object type
 
 export default function Recruiters() {
   const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState(
     []
   );
-  async function getData() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/recruiters');
-    const json = await res.json();
+  async function getRecruiters() {
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/recruiters'
+    ).then((res) => res.json());
     setRecruiters(json);
   }
+
   useEffect(() => {
-    getData();
+    getRecruiters();
   }, []);
 
-  function deleteRow(id: number, name: string): void {
-    async function deleteId(id: number) {
-      const res = await fetch(
-        `https://wesleytheobald.com/api/cs340/recruiters/${id}`,
-        { method: 'DELETE' }
-      );
-      getData();
-    }
+  async function deleteRow(id: number, name: string) {
     if (confirm(`Are you sure you want to delete recruiter: ${name}?`)) {
-      deleteId(id);
+      await fetch(`https://wesleytheobald.com/api/cs340/recruiters/${id}`, {
+        method: 'DELETE',
+      });
+      await getRecruiters();
     }
   }
 
-  function createRow(recruiterInfo: Recruiter) {
+  function createRow(recruiterInfo: Recruiter): ReactElement {
     const { recruiter_id, name, time_zone, commission } = recruiterInfo;
     return (
       <tr key={recruiter_id}>

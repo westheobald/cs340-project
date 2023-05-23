@@ -1,10 +1,12 @@
 'use client';
-import { ApplicationStatus, Candidate } from '@/helpers/types';
-import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState, FormEvent } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+
+import { ApplicationStatus, Candidate } from '@/helpers/types';
 
 export default function AddApplication() {
   const router = useRouter();
+
   const [candidates, setCandidates]: [Array<Candidate>, Function] = useState(
     []
   );
@@ -12,46 +14,43 @@ export default function AddApplication() {
     useState([]);
 
   async function getCandidates() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/candidates');
-    const json = await res.json();
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/candidates'
+    ).then((res) => res.json());
     setCandidates(json);
   }
   async function getStatus() {
-    const res = await fetch(
+    const json = await fetch(
       'https://wesleytheobald.com/api/cs340/application-statuses'
-    );
-    const json = await res.json();
-    setStatuses(json);
-  }
-
-  async function add(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const values: { date?: string | Date } = Object.fromEntries(data.entries());
-    values.date = new Date().toISOString();
-    values.date = `${values.date.slice(0, 10)} ${values.date.slice(11, 16)}:00`;
-    const json = JSON.stringify(values);
-    const res = await fetch(
-      'https://wesleytheobald.com/api/cs340/applications',
-      {
-        method: 'POST',
-        body: json,
-        headers: { 'Content-Type': 'application/json' },
-      }
     ).then((res) => res.json());
-    router.push('/applications');
+    setStatuses(json);
   }
   useEffect(() => {
     getCandidates();
     getStatus();
   }, []);
-  const query = useSearchParams();
+
+  async function add(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const values = Object.fromEntries(data.entries());
+    values.date = new Date().toISOString();
+    values.date = `${values.date.slice(0, 10)} ${values.date.slice(11, 16)}:00`;
+    const json = JSON.stringify(values);
+    await fetch('https://wesleytheobald.com/api/cs340/applications', {
+      method: 'POST',
+      body: json,
+      headers: { 'Content-Type': 'application/json' },
+    });
+    router.push('/applications');
+  }
+
+  const query = useSearchParams(); 
   const data = query.get('data');
   let posting;
-  if (data) {
-    posting = JSON.parse(data);
-  }
-  function formatDate(date: Date) {
+  if (data) posting = JSON.parse(data);
+
+  function formatDate(date: Date): string {
     return (
       date.getFullYear() +
       '-' +

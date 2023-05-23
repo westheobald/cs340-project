@@ -1,12 +1,15 @@
 'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
 import { FormEvent, useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+
 import { ApplicationStatus } from '@/helpers/types';
+
 export default function UpdateApplication() {
+  const router = useRouter();
+
   const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] =
     useState([]);
-
-  async function getData() {
+  async function getStatuses() {
     const res = await fetch(
       'https://wesleytheobald.com/api/cs340/application-statuses'
     );
@@ -15,15 +18,14 @@ export default function UpdateApplication() {
     setStatuses(json);
   }
   useEffect(() => {
-    getData();
+    getStatuses();
   }, []);
-  const router = useRouter();
+
   const query = useSearchParams();
   const data = query.get('data');
   let application;
-  if (data) {
-    application = JSON.parse(data);
-  }
+  if (data) application = JSON.parse(data);
+
   const date = new Date(application.date);
   const localeDate = `${date.getFullYear()}-${String(
     date.getMonth() + 1
@@ -32,6 +34,7 @@ export default function UpdateApplication() {
     date.getMinutes()
   ).padStart(2, '0')}`;
   application.date = localeDate + 'T' + localeTime;
+
   async function update(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -41,17 +44,14 @@ export default function UpdateApplication() {
     const timeFormat = values.date.slice(11, 16);
     values.date = `${dateFormat} ${timeFormat}`;
 
-    const json = JSON.stringify(values);
-    const res = await fetch(
-      'https://wesleytheobald.com/api/cs340/applications',
-      {
-        method: 'PUT',
-        body: json,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    ).then((res) => res.json());
+    await fetch('https://wesleytheobald.com/api/cs340/applications', {
+      method: 'PUT',
+      body: JSON.stringify(values),
+      headers: { 'Content-Type': 'application/json' },
+    });
     router.push('/applications');
   }
+
   return (
     <>
       <h1>Update Application</h1>

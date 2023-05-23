@@ -1,7 +1,9 @@
 'use client';
-import handleSubmit from '@/helpers/formSubmit';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+
+import handleSubmit from '@/helpers/formSubmit';
+
 export default function AddApplicationStatus() {
   const router = useRouter();
 

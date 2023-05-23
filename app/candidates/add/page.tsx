@@ -1,26 +1,34 @@
 'use client';
-import handleSubmit from '@/helpers/formSubmit';
-import { Recruiter } from '@/helpers/types';
 import { useEffect, useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+
+import handleSubmit from '@/helpers/formSubmit';
+import { Recruiter } from '@/helpers/types';
+
 export default function AddCandidate() {
   const router = useRouter();
   const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState(
     []
   );
-  async function getData() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/recruiters');
-    const json = await res.json();
+  async function getRecruiters() {
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/recruiters'
+    ).then((res) => res.json());
     setRecruiters(json);
   }
   async function add(e: FormEvent<HTMLFormElement>) {
-    await handleSubmit(e, 'https://wesleytheobald.com/api/cs340/candidates', 'POST');
+    await handleSubmit(
+      e,
+      'https://wesleytheobald.com/api/cs340/candidates',
+      'POST'
+    );
     router.push('/candidates');
   }
 
   useEffect(() => {
-    getData();
+    getRecruiters();
   }, []);
+
   return (
     <>
       <h1>Add a Candidate</h1>

@@ -1,30 +1,32 @@
 'use client';
+import { useEffect, useState, FormEvent } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+
 import handleSubmit from '@/helpers/formSubmit';
 import { Recruiter } from '@/helpers/types';
-import { useEffect, useState, FormEvent } from 'react';
 
 export default function UpdateCandidate() {
   const router = useRouter();
   const [recruiters, setRecruiters]: [Array<Recruiter>, Function] = useState(
     []
   );
-  async function getData() {
-    const res = await fetch('https://wesleytheobald.com/api/cs340/recruiters');
-    const json = await res.json();
+  async function getRecruiters() {
+    const json = await fetch(
+      'https://wesleytheobald.com/api/cs340/recruiters'
+    ).then((res) => res.json());
     setRecruiters(json);
   }
   useEffect(() => {
-    getData();
+    getRecruiters();
   }, []);
+
   const query = useSearchParams();
   const data = query.get('data');
   let candidate;
-  if (data) {
-    candidate = JSON.parse(data);
-  }
+  if (data) candidate = JSON.parse(data);
+
   async function update(e: FormEvent<HTMLFormElement>) {
-    const res = await handleSubmit(
+    await handleSubmit(
       e,
       'https://wesleytheobald.com/api/cs340/candidates',
       'PUT'

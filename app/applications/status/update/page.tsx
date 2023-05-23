@@ -1,18 +1,19 @@
 'use client';
-import handleSubmit from '@/helpers/formSubmit';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 
+import handleSubmit from '@/helpers/formSubmit';
+
 export default function EditApplicationStatus() {
   const router = useRouter();
+
   const query = useSearchParams();
   const data = query.get('data');
   let status;
-  if (data) {
-    status = JSON.parse(data);
-  }
+  if (data) status = JSON.parse(data);
+
   async function update(e: FormEvent<HTMLFormElement>) {
-    const res = await handleSubmit(
+    await handleSubmit(
       e,
       'https://wesleytheobald.com/api/cs340/application-statuses',
       'PUT'
