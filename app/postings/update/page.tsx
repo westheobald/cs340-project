@@ -3,10 +3,11 @@ import { useEffect, useState, FormEvent } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 import handleSubmit from '@/helpers/formSubmit';
-import { Company } from '@/helpers/types';
+import { Company, Posting } from '@/helpers/types';
 
 export default function UpdatePosting() {
   const router = useRouter();
+  const [company, setCompany]: [number, Function] = useState(0);
   const [companies, setCompanies]: [Array<Company>, Function] = useState([]);
 
   async function getCompanies() {
@@ -14,6 +15,9 @@ export default function UpdatePosting() {
       'https://wesleytheobald.com/api/cs340/companies'
     ).then((res) => res.json());
     setCompanies(json);
+    if (posting) {
+      setCompany(posting.company_id);
+    }
   }
   useEffect(() => {
     getCompanies();
@@ -21,12 +25,11 @@ export default function UpdatePosting() {
 
   const query = useSearchParams();
   const data = query.get('data');
-  let posting;
+  let posting: undefined | Posting;
   if (data) posting = JSON.parse(data);
-
+  if (!posting) return;
   const startDate = new Date(posting.post_start);
   const endDate = new Date(posting.post_end);
-
   async function update(e: FormEvent<HTMLFormElement>) {
     await handleSubmit(
       e,
@@ -50,10 +53,11 @@ export default function UpdatePosting() {
           />
         </label>
         <label htmlFor="company_id">
-          Posting:
+          Company:
           <select
             name="company_id"
-            defaultValue={posting.company_name}
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
             required
           >
             {companies.map((company: Company) => (

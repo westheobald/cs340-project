@@ -2,11 +2,11 @@
 import { FormEvent, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { ApplicationStatus } from '@/helpers/types';
+import { Application, ApplicationStatus } from '@/helpers/types';
 
 export default function UpdateApplication() {
   const router = useRouter();
-
+  const [status, setStatus]: [number, Function] = useState(0);
   const [statuses, setStatuses]: [Array<ApplicationStatus>, Function] =
     useState([]);
   async function getStatuses() {
@@ -14,8 +14,10 @@ export default function UpdateApplication() {
       'https://wesleytheobald.com/api/cs340/application-statuses'
     );
     const json = await res.json();
-    json.date = '1';
     setStatuses(json);
+    if (application) {
+      setStatus(application.status_id);
+    }
   }
   useEffect(() => {
     getStatuses();
@@ -23,8 +25,9 @@ export default function UpdateApplication() {
 
   const query = useSearchParams();
   const data = query.get('data');
-  let application;
+  let application: undefined | Application;
   if (data) application = JSON.parse(data);
+  if (!application) return;
 
   const date = new Date(application.date);
   const localeDate = `${date.getFullYear()}-${String(
@@ -100,7 +103,11 @@ export default function UpdateApplication() {
         </label>
         <label htmlFor="status_id">
           Status:
-          <select name="status_id">
+          <select
+            name="status_id"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
             {statuses.map((status) => (
               <option key={status.status_id} value={status.status_id}>
                 {status.message}
