@@ -104,7 +104,7 @@ export default function AddApplication() {
           </select>
         </label>
         <label htmlFor="date">
-          Date (GMT):
+          Date/Time (local):
           <input
             type="datetime-local"
             name="date"

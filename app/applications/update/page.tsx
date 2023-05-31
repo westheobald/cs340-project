@@ -15,6 +15,7 @@ export default function UpdateApplication() {
     );
     const json = await res.json();
     setStatuses(json);
+    console.log(application);
     if (application) {
       setStatus(application.status_id);
     }
@@ -93,7 +94,7 @@ export default function UpdateApplication() {
           />
         </label>
         <label htmlFor="date">
-          Date/Time:
+          Date/Time (local):
           <input
             type="datetime-local"
             name="date"
